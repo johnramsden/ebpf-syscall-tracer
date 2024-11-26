@@ -5,6 +5,8 @@
 
 #define TASK_COMM_LEN 16
 
+char _license[] SEC("license") = "GPL";
+
 SEC("ksyscall/read")
 int BPF_KSYSCALL(read_entry)
 {
@@ -2545,3 +2547,6 @@ int BPF_KSYSCALL(cachestat_entry)
     bpf_printk("451");
     return 0;
 }
+
+
+char _license[] SEC("license") = "GPL";
