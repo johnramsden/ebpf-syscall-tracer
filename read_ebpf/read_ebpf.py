@@ -13,7 +13,7 @@ with open("/sys/kernel/debug/tracing/trace_pipe", "r") as trace_pipe, open("outp
     # Continuously read lines from trace_pipe
     for line in trace_pipe:
         # Find the portion of the line starting with "PE"
-        if "PE," in line:
+        if "IDSTAG," in line:
             if "sudo" in line or "sshd" in line:
                 continue
             # Extract the part starting from "PE,"
