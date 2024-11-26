@@ -126,20 +126,6 @@ int BPF_KSYSCALL(ioctl_entry)
     return 0;
 }
 
-SEC("ksyscall/pread")
-int BPF_KSYSCALL(pread_entry)
-{
-    bpf_printk("17");
-    return 0;
-}
-
-SEC("ksyscall/pwrite")
-int BPF_KSYSCALL(pwrite_entry)
-{
-    bpf_printk("18");
-    return 0;
-}
-
 SEC("ksyscall/readv")
 int BPF_KSYSCALL(readv_entry)
 {
@@ -1099,13 +1085,6 @@ int BPF_KSYSCALL(pivot_root_entry)
     return 0;
 }
 
-SEC("ksyscall/_sysctl")
-int BPF_KSYSCALL(_sysctl_entry)
-{
-    bpf_printk("156");
-    return 0;
-}
-
 SEC("ksyscall/prctl")
 int BPF_KSYSCALL(prctl_entry)
 {
@@ -1169,13 +1148,6 @@ int BPF_KSYSCALL(mount_entry)
     return 0;
 }
 
-SEC("ksyscall/umount2")
-int BPF_KSYSCALL(umount2_entry)
-{
-    bpf_printk("166");
-    return 0;
-}
-
 SEC("ksyscall/swapon")
 int BPF_KSYSCALL(swapon_entry)
 {
@@ -1225,13 +1197,6 @@ int BPF_KSYSCALL(ioperm_entry)
     return 0;
 }
 
-SEC("ksyscall/create_module")
-int BPF_KSYSCALL(create_module_entry)
-{
-    bpf_printk("174");
-    return 0;
-}
-
 SEC("ksyscall/init_module")
 int BPF_KSYSCALL(init_module_entry)
 {
@@ -1246,66 +1211,10 @@ int BPF_KSYSCALL(delete_module_entry)
     return 0;
 }
 
-SEC("ksyscall/get_kernel_syms")
-int BPF_KSYSCALL(get_kernel_syms_entry)
-{
-    bpf_printk("177");
-    return 0;
-}
-
-SEC("ksyscall/query_module")
-int BPF_KSYSCALL(query_module_entry)
-{
-    bpf_printk("178");
-    return 0;
-}
-
 SEC("ksyscall/quotactl")
 int BPF_KSYSCALL(quotactl_entry)
 {
     bpf_printk("179");
-    return 0;
-}
-
-SEC("ksyscall/nfsservctl")
-int BPF_KSYSCALL(nfsservctl_entry)
-{
-    bpf_printk("180");
-    return 0;
-}
-
-SEC("ksyscall/getpmsg")
-int BPF_KSYSCALL(getpmsg_entry)
-{
-    bpf_printk("181");
-    return 0;
-}
-
-SEC("ksyscall/putpmsg")
-int BPF_KSYSCALL(putpmsg_entry)
-{
-    bpf_printk("182");
-    return 0;
-}
-
-SEC("ksyscall/afs_syscall")
-int BPF_KSYSCALL(afs_syscall_entry)
-{
-    bpf_printk("183");
-    return 0;
-}
-
-SEC("ksyscall/tuxcall")
-int BPF_KSYSCALL(tuxcall_entry)
-{
-    bpf_printk("184");
-    return 0;
-}
-
-SEC("ksyscall/security")
-int BPF_KSYSCALL(security_entry)
-{
-    bpf_printk("185");
     return 0;
 }
 
@@ -1491,31 +1400,10 @@ int BPF_KSYSCALL(get_thread_area_entry)
     return 0;
 }
 
-SEC("ksyscall/lookup_dcookie")
-int BPF_KSYSCALL(lookup_dcookie_entry)
-{
-    bpf_printk("212");
-    return 0;
-}
-
 SEC("ksyscall/epoll_create")
 int BPF_KSYSCALL(epoll_create_entry)
 {
     bpf_printk("213");
-    return 0;
-}
-
-SEC("ksyscall/epoll_ctl_old")
-int BPF_KSYSCALL(epoll_ctl_old_entry)
-{
-    bpf_printk("214");
-    return 0;
-}
-
-SEC("ksyscall/epoll_wait_old")
-int BPF_KSYSCALL(epoll_wait_old_entry)
-{
-    bpf_printk("215");
     return 0;
 }
 
@@ -1656,13 +1544,6 @@ SEC("ksyscall/utimes")
 int BPF_KSYSCALL(utimes_entry)
 {
     bpf_printk("235");
-    return 0;
-}
-
-SEC("ksyscall/vserver")
-int BPF_KSYSCALL(vserver_entry)
-{
-    bpf_printk("236");
     return 0;
 }
 
@@ -2547,6 +2428,3 @@ int BPF_KSYSCALL(cachestat_entry)
     bpf_printk("451");
     return 0;
 }
-
-
-char _license[] SEC("license") = "GPL";
