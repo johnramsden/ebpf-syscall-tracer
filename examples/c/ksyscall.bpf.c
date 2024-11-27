@@ -34,17 +34,6 @@ int BPF_KSYSCALL(write_entry)
 
     if (COMM_MATCH(comm)) {
         return 0;
-    }    char comm[TASK_COMM_LEN];
-    bpf_get_current_comm(&comm, sizeof(comm));
-
-    if (COMM_MATCH(comm)) {
-    char comm[TASK_COMM_LEN];
-    bpf_get_current_comm(&comm, sizeof(comm));
-
-    if (COMM_MATCH(comm)) {
-        return 0;
-    }
-        return 0;
     }
     bpf_printk("IDSTAG,1");
     return 0;
