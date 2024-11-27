@@ -5,6 +5,9 @@
 
 #define TASK_COMM_LEN 16
 
+// Set:
+// sysctl kernel.bpf_stats_enabled=1
+
 char _license[] SEC("license") = "GPL";
 
 #define COMM_MATCH(comm)                              \
