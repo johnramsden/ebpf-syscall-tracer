@@ -7,9 +7,21 @@
 
 char _license[] SEC("license") = "GPL";
 
+#define COMM_MATCH(comm)                              \
+    (__builtin_memcmp(comm, "sudo", 4) == 0 ||        \
+     __builtin_memcmp(comm, "sshd", 4) == 0 ||        \
+     __builtin_memcmp(comm, "read_ebpf.py", 12) == 0)
+
 SEC("ksyscall/read")
 int BPF_KSYSCALL(read_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
+
     bpf_printk("IDSTAG,0");
     return 0;
 }
@@ -17,6 +29,23 @@ int BPF_KSYSCALL(read_entry)
 SEC("ksyscall/write")
 int BPF_KSYSCALL(write_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
+        return 0;
+    }
     bpf_printk("IDSTAG,1");
     return 0;
 }
@@ -24,6 +53,13 @@ int BPF_KSYSCALL(write_entry)
 SEC("ksyscall/open")
 int BPF_KSYSCALL(open_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
+
     bpf_printk("IDSTAG,2");
     return 0;
 }
@@ -31,6 +67,12 @@ int BPF_KSYSCALL(open_entry)
 SEC("ksyscall/close")
 int BPF_KSYSCALL(close_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,3");
     return 0;
 }
@@ -38,6 +80,12 @@ int BPF_KSYSCALL(close_entry)
 SEC("ksyscall/stat")
 int BPF_KSYSCALL(stat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,4");
     return 0;
 }
@@ -45,6 +93,12 @@ int BPF_KSYSCALL(stat_entry)
 SEC("ksyscall/fstat")
 int BPF_KSYSCALL(fstat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,5");
     return 0;
 }
@@ -52,6 +106,12 @@ int BPF_KSYSCALL(fstat_entry)
 SEC("ksyscall/lstat")
 int BPF_KSYSCALL(lstat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,6");
     return 0;
 }
@@ -59,6 +119,12 @@ int BPF_KSYSCALL(lstat_entry)
 SEC("ksyscall/poll")
 int BPF_KSYSCALL(poll_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,7");
     return 0;
 }
@@ -66,6 +132,12 @@ int BPF_KSYSCALL(poll_entry)
 SEC("ksyscall/lseek")
 int BPF_KSYSCALL(lseek_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,8");
     return 0;
 }
@@ -73,6 +145,12 @@ int BPF_KSYSCALL(lseek_entry)
 SEC("ksyscall/mmap")
 int BPF_KSYSCALL(mmap_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,9");
     return 0;
 }
@@ -80,6 +158,12 @@ int BPF_KSYSCALL(mmap_entry)
 SEC("ksyscall/mprotect")
 int BPF_KSYSCALL(mprotect_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,10");
     return 0;
 }
@@ -87,6 +171,12 @@ int BPF_KSYSCALL(mprotect_entry)
 SEC("ksyscall/munmap")
 int BPF_KSYSCALL(munmap_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,11");
     return 0;
 }
@@ -94,6 +184,12 @@ int BPF_KSYSCALL(munmap_entry)
 SEC("ksyscall/brk")
 int BPF_KSYSCALL(brk_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,12");
     return 0;
 }
@@ -101,6 +197,12 @@ int BPF_KSYSCALL(brk_entry)
 SEC("ksyscall/rt_sigaction")
 int BPF_KSYSCALL(rt_sigaction_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,13");
     return 0;
 }
@@ -108,6 +210,12 @@ int BPF_KSYSCALL(rt_sigaction_entry)
 SEC("ksyscall/rt_sigprocmask")
 int BPF_KSYSCALL(rt_sigprocmask_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,14");
     return 0;
 }
@@ -115,6 +223,12 @@ int BPF_KSYSCALL(rt_sigprocmask_entry)
 SEC("ksyscall/rt_sigreturn")
 int BPF_KSYSCALL(rt_sigreturn_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,15");
     return 0;
 }
@@ -122,6 +236,12 @@ int BPF_KSYSCALL(rt_sigreturn_entry)
 SEC("ksyscall/ioctl")
 int BPF_KSYSCALL(ioctl_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,16");
     return 0;
 }
@@ -129,6 +249,12 @@ int BPF_KSYSCALL(ioctl_entry)
 SEC("ksyscall/readv")
 int BPF_KSYSCALL(readv_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,19");
     return 0;
 }
@@ -136,6 +262,12 @@ int BPF_KSYSCALL(readv_entry)
 SEC("ksyscall/writev")
 int BPF_KSYSCALL(writev_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,20");
     return 0;
 }
@@ -143,6 +275,12 @@ int BPF_KSYSCALL(writev_entry)
 SEC("ksyscall/access")
 int BPF_KSYSCALL(access_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,21");
     return 0;
 }
@@ -150,6 +288,12 @@ int BPF_KSYSCALL(access_entry)
 SEC("ksyscall/pipe")
 int BPF_KSYSCALL(pipe_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,22");
     return 0;
 }
@@ -157,6 +301,12 @@ int BPF_KSYSCALL(pipe_entry)
 SEC("ksyscall/select")
 int BPF_KSYSCALL(select_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,23");
     return 0;
 }
@@ -164,6 +314,12 @@ int BPF_KSYSCALL(select_entry)
 SEC("ksyscall/sched_yield")
 int BPF_KSYSCALL(sched_yield_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,24");
     return 0;
 }
@@ -171,6 +327,12 @@ int BPF_KSYSCALL(sched_yield_entry)
 SEC("ksyscall/mremap")
 int BPF_KSYSCALL(mremap_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,25");
     return 0;
 }
@@ -178,6 +340,12 @@ int BPF_KSYSCALL(mremap_entry)
 SEC("ksyscall/msync")
 int BPF_KSYSCALL(msync_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,26");
     return 0;
 }
@@ -185,6 +353,12 @@ int BPF_KSYSCALL(msync_entry)
 SEC("ksyscall/mincore")
 int BPF_KSYSCALL(mincore_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,27");
     return 0;
 }
@@ -192,6 +366,12 @@ int BPF_KSYSCALL(mincore_entry)
 SEC("ksyscall/madvise")
 int BPF_KSYSCALL(madvise_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,28");
     return 0;
 }
@@ -199,6 +379,12 @@ int BPF_KSYSCALL(madvise_entry)
 SEC("ksyscall/shmget")
 int BPF_KSYSCALL(shmget_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,29");
     return 0;
 }
@@ -206,6 +392,12 @@ int BPF_KSYSCALL(shmget_entry)
 SEC("ksyscall/shmat")
 int BPF_KSYSCALL(shmat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,30");
     return 0;
 }
@@ -213,6 +405,12 @@ int BPF_KSYSCALL(shmat_entry)
 SEC("ksyscall/shmctl")
 int BPF_KSYSCALL(shmctl_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,31");
     return 0;
 }
@@ -220,6 +418,12 @@ int BPF_KSYSCALL(shmctl_entry)
 SEC("ksyscall/dup")
 int BPF_KSYSCALL(dup_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,32");
     return 0;
 }
@@ -227,6 +431,12 @@ int BPF_KSYSCALL(dup_entry)
 SEC("ksyscall/dup2")
 int BPF_KSYSCALL(dup2_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,33");
     return 0;
 }
@@ -234,6 +444,12 @@ int BPF_KSYSCALL(dup2_entry)
 SEC("ksyscall/pause")
 int BPF_KSYSCALL(pause_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,34");
     return 0;
 }
@@ -241,6 +457,12 @@ int BPF_KSYSCALL(pause_entry)
 SEC("ksyscall/nanosleep")
 int BPF_KSYSCALL(nanosleep_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,35");
     return 0;
 }
@@ -248,6 +470,12 @@ int BPF_KSYSCALL(nanosleep_entry)
 SEC("ksyscall/getitimer")
 int BPF_KSYSCALL(getitimer_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,36");
     return 0;
 }
@@ -255,6 +483,12 @@ int BPF_KSYSCALL(getitimer_entry)
 SEC("ksyscall/alarm")
 int BPF_KSYSCALL(alarm_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,37");
     return 0;
 }
@@ -262,6 +496,12 @@ int BPF_KSYSCALL(alarm_entry)
 SEC("ksyscall/setitimer")
 int BPF_KSYSCALL(setitimer_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,38");
     return 0;
 }
@@ -269,6 +509,12 @@ int BPF_KSYSCALL(setitimer_entry)
 SEC("ksyscall/getpid")
 int BPF_KSYSCALL(getpid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,39");
     return 0;
 }
@@ -276,6 +522,12 @@ int BPF_KSYSCALL(getpid_entry)
 SEC("ksyscall/sendfile")
 int BPF_KSYSCALL(sendfile_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,40");
     return 0;
 }
@@ -283,6 +535,12 @@ int BPF_KSYSCALL(sendfile_entry)
 SEC("ksyscall/socket")
 int BPF_KSYSCALL(socket_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,41");
     return 0;
 }
@@ -290,6 +548,12 @@ int BPF_KSYSCALL(socket_entry)
 SEC("ksyscall/connect")
 int BPF_KSYSCALL(connect_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,42");
     return 0;
 }
@@ -297,6 +561,12 @@ int BPF_KSYSCALL(connect_entry)
 SEC("ksyscall/accept")
 int BPF_KSYSCALL(accept_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,43");
     return 0;
 }
@@ -304,6 +574,12 @@ int BPF_KSYSCALL(accept_entry)
 SEC("ksyscall/sendto")
 int BPF_KSYSCALL(sendto_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,44");
     return 0;
 }
@@ -311,6 +587,12 @@ int BPF_KSYSCALL(sendto_entry)
 SEC("ksyscall/recvfrom")
 int BPF_KSYSCALL(recvfrom_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,45");
     return 0;
 }
@@ -318,6 +600,12 @@ int BPF_KSYSCALL(recvfrom_entry)
 SEC("ksyscall/sendmsg")
 int BPF_KSYSCALL(sendmsg_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,46");
     return 0;
 }
@@ -325,6 +613,12 @@ int BPF_KSYSCALL(sendmsg_entry)
 SEC("ksyscall/recvmsg")
 int BPF_KSYSCALL(recvmsg_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,47");
     return 0;
 }
@@ -332,6 +626,12 @@ int BPF_KSYSCALL(recvmsg_entry)
 SEC("ksyscall/shutdown")
 int BPF_KSYSCALL(shutdown_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,48");
     return 0;
 }
@@ -339,6 +639,12 @@ int BPF_KSYSCALL(shutdown_entry)
 SEC("ksyscall/bind")
 int BPF_KSYSCALL(bind_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,49");
     return 0;
 }
@@ -346,6 +652,12 @@ int BPF_KSYSCALL(bind_entry)
 SEC("ksyscall/listen")
 int BPF_KSYSCALL(listen_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,50");
     return 0;
 }
@@ -353,6 +665,12 @@ int BPF_KSYSCALL(listen_entry)
 SEC("ksyscall/getsockname")
 int BPF_KSYSCALL(getsockname_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,51");
     return 0;
 }
@@ -360,6 +678,12 @@ int BPF_KSYSCALL(getsockname_entry)
 SEC("ksyscall/getpeername")
 int BPF_KSYSCALL(getpeername_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,52");
     return 0;
 }
@@ -367,6 +691,12 @@ int BPF_KSYSCALL(getpeername_entry)
 SEC("ksyscall/socketpair")
 int BPF_KSYSCALL(socketpair_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,53");
     return 0;
 }
@@ -374,6 +704,12 @@ int BPF_KSYSCALL(socketpair_entry)
 SEC("ksyscall/setsockopt")
 int BPF_KSYSCALL(setsockopt_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,54");
     return 0;
 }
@@ -381,6 +717,12 @@ int BPF_KSYSCALL(setsockopt_entry)
 SEC("ksyscall/getsockopt")
 int BPF_KSYSCALL(getsockopt_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,55");
     return 0;
 }
@@ -388,6 +730,12 @@ int BPF_KSYSCALL(getsockopt_entry)
 SEC("ksyscall/clone")
 int BPF_KSYSCALL(clone_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,56");
     return 0;
 }
@@ -395,6 +743,12 @@ int BPF_KSYSCALL(clone_entry)
 SEC("ksyscall/fork")
 int BPF_KSYSCALL(fork_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,57");
     return 0;
 }
@@ -402,6 +756,12 @@ int BPF_KSYSCALL(fork_entry)
 SEC("ksyscall/vfork")
 int BPF_KSYSCALL(vfork_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,58");
     return 0;
 }
@@ -409,6 +769,12 @@ int BPF_KSYSCALL(vfork_entry)
 SEC("ksyscall/execve")
 int BPF_KSYSCALL(execve_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,59");
     return 0;
 }
@@ -416,6 +782,12 @@ int BPF_KSYSCALL(execve_entry)
 SEC("ksyscall/exit")
 int BPF_KSYSCALL(exit_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,60");
     return 0;
 }
@@ -423,6 +795,12 @@ int BPF_KSYSCALL(exit_entry)
 SEC("ksyscall/wait4")
 int BPF_KSYSCALL(wait4_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,61");
     return 0;
 }
@@ -430,6 +808,12 @@ int BPF_KSYSCALL(wait4_entry)
 SEC("ksyscall/kill")
 int BPF_KSYSCALL(kill_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,62");
     return 0;
 }
@@ -437,6 +821,12 @@ int BPF_KSYSCALL(kill_entry)
 SEC("ksyscall/uname")
 int BPF_KSYSCALL(uname_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,63");
     return 0;
 }
@@ -444,6 +834,12 @@ int BPF_KSYSCALL(uname_entry)
 SEC("ksyscall/semget")
 int BPF_KSYSCALL(semget_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,64");
     return 0;
 }
@@ -451,6 +847,12 @@ int BPF_KSYSCALL(semget_entry)
 SEC("ksyscall/semop")
 int BPF_KSYSCALL(semop_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,65");
     return 0;
 }
@@ -458,6 +860,12 @@ int BPF_KSYSCALL(semop_entry)
 SEC("ksyscall/semctl")
 int BPF_KSYSCALL(semctl_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,66");
     return 0;
 }
@@ -465,6 +873,12 @@ int BPF_KSYSCALL(semctl_entry)
 SEC("ksyscall/shmdt")
 int BPF_KSYSCALL(shmdt_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,67");
     return 0;
 }
@@ -472,6 +886,12 @@ int BPF_KSYSCALL(shmdt_entry)
 SEC("ksyscall/msgget")
 int BPF_KSYSCALL(msgget_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,68");
     return 0;
 }
@@ -479,6 +899,12 @@ int BPF_KSYSCALL(msgget_entry)
 SEC("ksyscall/msgsnd")
 int BPF_KSYSCALL(msgsnd_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,69");
     return 0;
 }
@@ -486,6 +912,12 @@ int BPF_KSYSCALL(msgsnd_entry)
 SEC("ksyscall/msgrcv")
 int BPF_KSYSCALL(msgrcv_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,70");
     return 0;
 }
@@ -493,6 +925,12 @@ int BPF_KSYSCALL(msgrcv_entry)
 SEC("ksyscall/msgctl")
 int BPF_KSYSCALL(msgctl_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,71");
     return 0;
 }
@@ -500,6 +938,12 @@ int BPF_KSYSCALL(msgctl_entry)
 SEC("ksyscall/fcntl")
 int BPF_KSYSCALL(fcntl_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,72");
     return 0;
 }
@@ -507,6 +951,12 @@ int BPF_KSYSCALL(fcntl_entry)
 SEC("ksyscall/flock")
 int BPF_KSYSCALL(flock_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,73");
     return 0;
 }
@@ -514,6 +964,12 @@ int BPF_KSYSCALL(flock_entry)
 SEC("ksyscall/fsync")
 int BPF_KSYSCALL(fsync_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,74");
     return 0;
 }
@@ -521,6 +977,12 @@ int BPF_KSYSCALL(fsync_entry)
 SEC("ksyscall/fdatasync")
 int BPF_KSYSCALL(fdatasync_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,75");
     return 0;
 }
@@ -528,6 +990,12 @@ int BPF_KSYSCALL(fdatasync_entry)
 SEC("ksyscall/truncate")
 int BPF_KSYSCALL(truncate_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,76");
     return 0;
 }
@@ -535,6 +1003,12 @@ int BPF_KSYSCALL(truncate_entry)
 SEC("ksyscall/ftruncate")
 int BPF_KSYSCALL(ftruncate_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,77");
     return 0;
 }
@@ -542,6 +1016,12 @@ int BPF_KSYSCALL(ftruncate_entry)
 SEC("ksyscall/getdents")
 int BPF_KSYSCALL(getdents_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,78");
     return 0;
 }
@@ -549,6 +1029,12 @@ int BPF_KSYSCALL(getdents_entry)
 SEC("ksyscall/getcwd")
 int BPF_KSYSCALL(getcwd_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,79");
     return 0;
 }
@@ -556,6 +1042,12 @@ int BPF_KSYSCALL(getcwd_entry)
 SEC("ksyscall/chdir")
 int BPF_KSYSCALL(chdir_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,80");
     return 0;
 }
@@ -563,6 +1055,12 @@ int BPF_KSYSCALL(chdir_entry)
 SEC("ksyscall/fchdir")
 int BPF_KSYSCALL(fchdir_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,81");
     return 0;
 }
@@ -570,6 +1068,12 @@ int BPF_KSYSCALL(fchdir_entry)
 SEC("ksyscall/rename")
 int BPF_KSYSCALL(rename_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,82");
     return 0;
 }
@@ -577,6 +1081,12 @@ int BPF_KSYSCALL(rename_entry)
 SEC("ksyscall/mkdir")
 int BPF_KSYSCALL(mkdir_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,83");
     return 0;
 }
@@ -584,6 +1094,12 @@ int BPF_KSYSCALL(mkdir_entry)
 SEC("ksyscall/rmdir")
 int BPF_KSYSCALL(rmdir_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,84");
     return 0;
 }
@@ -591,6 +1107,12 @@ int BPF_KSYSCALL(rmdir_entry)
 SEC("ksyscall/creat")
 int BPF_KSYSCALL(creat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,85");
     return 0;
 }
@@ -598,6 +1120,12 @@ int BPF_KSYSCALL(creat_entry)
 SEC("ksyscall/link")
 int BPF_KSYSCALL(link_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,86");
     return 0;
 }
@@ -605,6 +1133,12 @@ int BPF_KSYSCALL(link_entry)
 SEC("ksyscall/unlink")
 int BPF_KSYSCALL(unlink_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,87");
     return 0;
 }
@@ -612,6 +1146,12 @@ int BPF_KSYSCALL(unlink_entry)
 SEC("ksyscall/symlink")
 int BPF_KSYSCALL(symlink_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,88");
     return 0;
 }
@@ -619,6 +1159,12 @@ int BPF_KSYSCALL(symlink_entry)
 SEC("ksyscall/readlink")
 int BPF_KSYSCALL(readlink_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,89");
     return 0;
 }
@@ -626,6 +1172,12 @@ int BPF_KSYSCALL(readlink_entry)
 SEC("ksyscall/chmod")
 int BPF_KSYSCALL(chmod_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,90");
     return 0;
 }
@@ -633,6 +1185,12 @@ int BPF_KSYSCALL(chmod_entry)
 SEC("ksyscall/fchmod")
 int BPF_KSYSCALL(fchmod_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,91");
     return 0;
 }
@@ -640,6 +1198,12 @@ int BPF_KSYSCALL(fchmod_entry)
 SEC("ksyscall/chown")
 int BPF_KSYSCALL(chown_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,92");
     return 0;
 }
@@ -647,6 +1211,12 @@ int BPF_KSYSCALL(chown_entry)
 SEC("ksyscall/fchown")
 int BPF_KSYSCALL(fchown_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,93");
     return 0;
 }
@@ -654,6 +1224,12 @@ int BPF_KSYSCALL(fchown_entry)
 SEC("ksyscall/lchown")
 int BPF_KSYSCALL(lchown_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,94");
     return 0;
 }
@@ -661,6 +1237,12 @@ int BPF_KSYSCALL(lchown_entry)
 SEC("ksyscall/umask")
 int BPF_KSYSCALL(umask_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,95");
     return 0;
 }
@@ -668,6 +1250,12 @@ int BPF_KSYSCALL(umask_entry)
 SEC("ksyscall/gettimeofday")
 int BPF_KSYSCALL(gettimeofday_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,96");
     return 0;
 }
@@ -675,6 +1263,12 @@ int BPF_KSYSCALL(gettimeofday_entry)
 SEC("ksyscall/getrlimit")
 int BPF_KSYSCALL(getrlimit_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,97");
     return 0;
 }
@@ -682,6 +1276,12 @@ int BPF_KSYSCALL(getrlimit_entry)
 SEC("ksyscall/getrusage")
 int BPF_KSYSCALL(getrusage_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,98");
     return 0;
 }
@@ -689,6 +1289,12 @@ int BPF_KSYSCALL(getrusage_entry)
 SEC("ksyscall/sysinfo")
 int BPF_KSYSCALL(sysinfo_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,99");
     return 0;
 }
@@ -696,6 +1302,12 @@ int BPF_KSYSCALL(sysinfo_entry)
 SEC("ksyscall/times")
 int BPF_KSYSCALL(times_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,100");
     return 0;
 }
@@ -703,6 +1315,12 @@ int BPF_KSYSCALL(times_entry)
 SEC("ksyscall/ptrace")
 int BPF_KSYSCALL(ptrace_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,101");
     return 0;
 }
@@ -710,6 +1328,12 @@ int BPF_KSYSCALL(ptrace_entry)
 SEC("ksyscall/getuid")
 int BPF_KSYSCALL(getuid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,102");
     return 0;
 }
@@ -717,6 +1341,12 @@ int BPF_KSYSCALL(getuid_entry)
 SEC("ksyscall/syslog")
 int BPF_KSYSCALL(syslog_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,103");
     return 0;
 }
@@ -724,6 +1354,12 @@ int BPF_KSYSCALL(syslog_entry)
 SEC("ksyscall/getgid")
 int BPF_KSYSCALL(getgid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,104");
     return 0;
 }
@@ -731,6 +1367,12 @@ int BPF_KSYSCALL(getgid_entry)
 SEC("ksyscall/setuid")
 int BPF_KSYSCALL(setuid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,105");
     return 0;
 }
@@ -738,6 +1380,12 @@ int BPF_KSYSCALL(setuid_entry)
 SEC("ksyscall/setgid")
 int BPF_KSYSCALL(setgid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,106");
     return 0;
 }
@@ -745,6 +1393,12 @@ int BPF_KSYSCALL(setgid_entry)
 SEC("ksyscall/geteuid")
 int BPF_KSYSCALL(geteuid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,107");
     return 0;
 }
@@ -752,6 +1406,12 @@ int BPF_KSYSCALL(geteuid_entry)
 SEC("ksyscall/getegid")
 int BPF_KSYSCALL(getegid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,108");
     return 0;
 }
@@ -759,6 +1419,12 @@ int BPF_KSYSCALL(getegid_entry)
 SEC("ksyscall/setpgid")
 int BPF_KSYSCALL(setpgid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,109");
     return 0;
 }
@@ -766,6 +1432,12 @@ int BPF_KSYSCALL(setpgid_entry)
 SEC("ksyscall/getppid")
 int BPF_KSYSCALL(getppid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,110");
     return 0;
 }
@@ -773,6 +1445,12 @@ int BPF_KSYSCALL(getppid_entry)
 SEC("ksyscall/getpgrp")
 int BPF_KSYSCALL(getpgrp_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,111");
     return 0;
 }
@@ -780,6 +1458,12 @@ int BPF_KSYSCALL(getpgrp_entry)
 SEC("ksyscall/setsid")
 int BPF_KSYSCALL(setsid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,112");
     return 0;
 }
@@ -787,6 +1471,12 @@ int BPF_KSYSCALL(setsid_entry)
 SEC("ksyscall/setreuid")
 int BPF_KSYSCALL(setreuid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,113");
     return 0;
 }
@@ -794,6 +1484,12 @@ int BPF_KSYSCALL(setreuid_entry)
 SEC("ksyscall/setregid")
 int BPF_KSYSCALL(setregid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,114");
     return 0;
 }
@@ -801,6 +1497,12 @@ int BPF_KSYSCALL(setregid_entry)
 SEC("ksyscall/getgroups")
 int BPF_KSYSCALL(getgroups_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,115");
     return 0;
 }
@@ -808,6 +1510,12 @@ int BPF_KSYSCALL(getgroups_entry)
 SEC("ksyscall/setgroups")
 int BPF_KSYSCALL(setgroups_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,116");
     return 0;
 }
@@ -815,6 +1523,12 @@ int BPF_KSYSCALL(setgroups_entry)
 SEC("ksyscall/setresuid")
 int BPF_KSYSCALL(setresuid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,117");
     return 0;
 }
@@ -822,6 +1536,12 @@ int BPF_KSYSCALL(setresuid_entry)
 SEC("ksyscall/getresuid")
 int BPF_KSYSCALL(getresuid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,118");
     return 0;
 }
@@ -829,6 +1549,12 @@ int BPF_KSYSCALL(getresuid_entry)
 SEC("ksyscall/setresgid")
 int BPF_KSYSCALL(setresgid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,119");
     return 0;
 }
@@ -836,6 +1562,12 @@ int BPF_KSYSCALL(setresgid_entry)
 SEC("ksyscall/getresgid")
 int BPF_KSYSCALL(getresgid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,120");
     return 0;
 }
@@ -843,6 +1575,12 @@ int BPF_KSYSCALL(getresgid_entry)
 SEC("ksyscall/getpgid")
 int BPF_KSYSCALL(getpgid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,121");
     return 0;
 }
@@ -850,6 +1588,12 @@ int BPF_KSYSCALL(getpgid_entry)
 SEC("ksyscall/setfsuid")
 int BPF_KSYSCALL(setfsuid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,122");
     return 0;
 }
@@ -857,6 +1601,12 @@ int BPF_KSYSCALL(setfsuid_entry)
 SEC("ksyscall/setfsgid")
 int BPF_KSYSCALL(setfsgid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,123");
     return 0;
 }
@@ -864,6 +1614,12 @@ int BPF_KSYSCALL(setfsgid_entry)
 SEC("ksyscall/getsid")
 int BPF_KSYSCALL(getsid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,124");
     return 0;
 }
@@ -871,6 +1627,12 @@ int BPF_KSYSCALL(getsid_entry)
 SEC("ksyscall/capget")
 int BPF_KSYSCALL(capget_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,125");
     return 0;
 }
@@ -878,6 +1640,12 @@ int BPF_KSYSCALL(capget_entry)
 SEC("ksyscall/capset")
 int BPF_KSYSCALL(capset_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,126");
     return 0;
 }
@@ -885,6 +1653,12 @@ int BPF_KSYSCALL(capset_entry)
 SEC("ksyscall/rt_sigpending")
 int BPF_KSYSCALL(rt_sigpending_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,127");
     return 0;
 }
@@ -892,6 +1666,12 @@ int BPF_KSYSCALL(rt_sigpending_entry)
 SEC("ksyscall/rt_sigtimedwait")
 int BPF_KSYSCALL(rt_sigtimedwait_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,128");
     return 0;
 }
@@ -899,6 +1679,12 @@ int BPF_KSYSCALL(rt_sigtimedwait_entry)
 SEC("ksyscall/rt_sigqueueinfo")
 int BPF_KSYSCALL(rt_sigqueueinfo_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,129");
     return 0;
 }
@@ -906,6 +1692,12 @@ int BPF_KSYSCALL(rt_sigqueueinfo_entry)
 SEC("ksyscall/rt_sigsuspend")
 int BPF_KSYSCALL(rt_sigsuspend_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,130");
     return 0;
 }
@@ -913,6 +1705,12 @@ int BPF_KSYSCALL(rt_sigsuspend_entry)
 SEC("ksyscall/sigaltstack")
 int BPF_KSYSCALL(sigaltstack_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,131");
     return 0;
 }
@@ -920,6 +1718,12 @@ int BPF_KSYSCALL(sigaltstack_entry)
 SEC("ksyscall/utime")
 int BPF_KSYSCALL(utime_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,132");
     return 0;
 }
@@ -927,6 +1731,12 @@ int BPF_KSYSCALL(utime_entry)
 SEC("ksyscall/mknod")
 int BPF_KSYSCALL(mknod_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,133");
     return 0;
 }
@@ -934,6 +1744,12 @@ int BPF_KSYSCALL(mknod_entry)
 SEC("ksyscall/uselib")
 int BPF_KSYSCALL(uselib_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,134");
     return 0;
 }
@@ -941,6 +1757,12 @@ int BPF_KSYSCALL(uselib_entry)
 SEC("ksyscall/personality")
 int BPF_KSYSCALL(personality_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,135");
     return 0;
 }
@@ -948,6 +1770,12 @@ int BPF_KSYSCALL(personality_entry)
 SEC("ksyscall/ustat")
 int BPF_KSYSCALL(ustat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,136");
     return 0;
 }
@@ -955,6 +1783,12 @@ int BPF_KSYSCALL(ustat_entry)
 SEC("ksyscall/statfs")
 int BPF_KSYSCALL(statfs_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,137");
     return 0;
 }
@@ -962,6 +1796,12 @@ int BPF_KSYSCALL(statfs_entry)
 SEC("ksyscall/fstatfs")
 int BPF_KSYSCALL(fstatfs_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,138");
     return 0;
 }
@@ -969,6 +1809,12 @@ int BPF_KSYSCALL(fstatfs_entry)
 SEC("ksyscall/sysfs")
 int BPF_KSYSCALL(sysfs_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,139");
     return 0;
 }
@@ -976,6 +1822,12 @@ int BPF_KSYSCALL(sysfs_entry)
 SEC("ksyscall/getpriority")
 int BPF_KSYSCALL(getpriority_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,140");
     return 0;
 }
@@ -983,6 +1835,12 @@ int BPF_KSYSCALL(getpriority_entry)
 SEC("ksyscall/setpriority")
 int BPF_KSYSCALL(setpriority_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,141");
     return 0;
 }
@@ -990,6 +1848,12 @@ int BPF_KSYSCALL(setpriority_entry)
 SEC("ksyscall/sched_setparam")
 int BPF_KSYSCALL(sched_setparam_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,142");
     return 0;
 }
@@ -997,6 +1861,12 @@ int BPF_KSYSCALL(sched_setparam_entry)
 SEC("ksyscall/sched_getparam")
 int BPF_KSYSCALL(sched_getparam_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,143");
     return 0;
 }
@@ -1004,6 +1874,12 @@ int BPF_KSYSCALL(sched_getparam_entry)
 SEC("ksyscall/sched_setscheduler")
 int BPF_KSYSCALL(sched_setscheduler_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,144");
     return 0;
 }
@@ -1011,6 +1887,12 @@ int BPF_KSYSCALL(sched_setscheduler_entry)
 SEC("ksyscall/sched_getscheduler")
 int BPF_KSYSCALL(sched_getscheduler_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,145");
     return 0;
 }
@@ -1018,6 +1900,12 @@ int BPF_KSYSCALL(sched_getscheduler_entry)
 SEC("ksyscall/sched_get_priority_max")
 int BPF_KSYSCALL(sched_get_priority_max_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,146");
     return 0;
 }
@@ -1025,6 +1913,12 @@ int BPF_KSYSCALL(sched_get_priority_max_entry)
 SEC("ksyscall/sched_get_priority_min")
 int BPF_KSYSCALL(sched_get_priority_min_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,147");
     return 0;
 }
@@ -1032,6 +1926,12 @@ int BPF_KSYSCALL(sched_get_priority_min_entry)
 SEC("ksyscall/sched_rr_get_interval")
 int BPF_KSYSCALL(sched_rr_get_interval_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,148");
     return 0;
 }
@@ -1039,6 +1939,12 @@ int BPF_KSYSCALL(sched_rr_get_interval_entry)
 SEC("ksyscall/mlock")
 int BPF_KSYSCALL(mlock_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,149");
     return 0;
 }
@@ -1046,6 +1952,12 @@ int BPF_KSYSCALL(mlock_entry)
 SEC("ksyscall/munlock")
 int BPF_KSYSCALL(munlock_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,150");
     return 0;
 }
@@ -1053,6 +1965,12 @@ int BPF_KSYSCALL(munlock_entry)
 SEC("ksyscall/mlockall")
 int BPF_KSYSCALL(mlockall_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,151");
     return 0;
 }
@@ -1060,6 +1978,12 @@ int BPF_KSYSCALL(mlockall_entry)
 SEC("ksyscall/munlockall")
 int BPF_KSYSCALL(munlockall_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,152");
     return 0;
 }
@@ -1067,6 +1991,12 @@ int BPF_KSYSCALL(munlockall_entry)
 SEC("ksyscall/vhangup")
 int BPF_KSYSCALL(vhangup_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,153");
     return 0;
 }
@@ -1074,6 +2004,12 @@ int BPF_KSYSCALL(vhangup_entry)
 SEC("ksyscall/modify_ldt")
 int BPF_KSYSCALL(modify_ldt_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,154");
     return 0;
 }
@@ -1081,6 +2017,12 @@ int BPF_KSYSCALL(modify_ldt_entry)
 SEC("ksyscall/pivot_root")
 int BPF_KSYSCALL(pivot_root_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,155");
     return 0;
 }
@@ -1088,6 +2030,12 @@ int BPF_KSYSCALL(pivot_root_entry)
 SEC("ksyscall/prctl")
 int BPF_KSYSCALL(prctl_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,157");
     return 0;
 }
@@ -1095,6 +2043,12 @@ int BPF_KSYSCALL(prctl_entry)
 SEC("ksyscall/arch_prctl")
 int BPF_KSYSCALL(arch_prctl_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,158");
     return 0;
 }
@@ -1102,6 +2056,12 @@ int BPF_KSYSCALL(arch_prctl_entry)
 SEC("ksyscall/adjtimex")
 int BPF_KSYSCALL(adjtimex_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,159");
     return 0;
 }
@@ -1109,6 +2069,12 @@ int BPF_KSYSCALL(adjtimex_entry)
 SEC("ksyscall/setrlimit")
 int BPF_KSYSCALL(setrlimit_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,160");
     return 0;
 }
@@ -1116,6 +2082,12 @@ int BPF_KSYSCALL(setrlimit_entry)
 SEC("ksyscall/chroot")
 int BPF_KSYSCALL(chroot_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,161");
     return 0;
 }
@@ -1123,6 +2095,12 @@ int BPF_KSYSCALL(chroot_entry)
 SEC("ksyscall/sync")
 int BPF_KSYSCALL(sync_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,162");
     return 0;
 }
@@ -1130,6 +2108,12 @@ int BPF_KSYSCALL(sync_entry)
 SEC("ksyscall/acct")
 int BPF_KSYSCALL(acct_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,163");
     return 0;
 }
@@ -1137,6 +2121,12 @@ int BPF_KSYSCALL(acct_entry)
 SEC("ksyscall/settimeofday")
 int BPF_KSYSCALL(settimeofday_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,164");
     return 0;
 }
@@ -1144,6 +2134,12 @@ int BPF_KSYSCALL(settimeofday_entry)
 SEC("ksyscall/mount")
 int BPF_KSYSCALL(mount_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,165");
     return 0;
 }
@@ -1151,6 +2147,12 @@ int BPF_KSYSCALL(mount_entry)
 SEC("ksyscall/swapon")
 int BPF_KSYSCALL(swapon_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,167");
     return 0;
 }
@@ -1158,6 +2160,12 @@ int BPF_KSYSCALL(swapon_entry)
 SEC("ksyscall/swapoff")
 int BPF_KSYSCALL(swapoff_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,168");
     return 0;
 }
@@ -1165,6 +2173,12 @@ int BPF_KSYSCALL(swapoff_entry)
 SEC("ksyscall/reboot")
 int BPF_KSYSCALL(reboot_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,169");
     return 0;
 }
@@ -1172,6 +2186,12 @@ int BPF_KSYSCALL(reboot_entry)
 SEC("ksyscall/sethostname")
 int BPF_KSYSCALL(sethostname_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,170");
     return 0;
 }
@@ -1179,6 +2199,12 @@ int BPF_KSYSCALL(sethostname_entry)
 SEC("ksyscall/setdomainname")
 int BPF_KSYSCALL(setdomainname_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,171");
     return 0;
 }
@@ -1186,6 +2212,12 @@ int BPF_KSYSCALL(setdomainname_entry)
 SEC("ksyscall/iopl")
 int BPF_KSYSCALL(iopl_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,172");
     return 0;
 }
@@ -1193,6 +2225,12 @@ int BPF_KSYSCALL(iopl_entry)
 SEC("ksyscall/ioperm")
 int BPF_KSYSCALL(ioperm_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,173");
     return 0;
 }
@@ -1200,6 +2238,12 @@ int BPF_KSYSCALL(ioperm_entry)
 SEC("ksyscall/init_module")
 int BPF_KSYSCALL(init_module_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,175");
     return 0;
 }
@@ -1207,6 +2251,12 @@ int BPF_KSYSCALL(init_module_entry)
 SEC("ksyscall/delete_module")
 int BPF_KSYSCALL(delete_module_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,176");
     return 0;
 }
@@ -1214,6 +2264,12 @@ int BPF_KSYSCALL(delete_module_entry)
 SEC("ksyscall/quotactl")
 int BPF_KSYSCALL(quotactl_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,179");
     return 0;
 }
@@ -1221,6 +2277,12 @@ int BPF_KSYSCALL(quotactl_entry)
 SEC("ksyscall/gettid")
 int BPF_KSYSCALL(gettid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,186");
     return 0;
 }
@@ -1228,6 +2290,12 @@ int BPF_KSYSCALL(gettid_entry)
 SEC("ksyscall/readahead")
 int BPF_KSYSCALL(readahead_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,187");
     return 0;
 }
@@ -1235,6 +2303,12 @@ int BPF_KSYSCALL(readahead_entry)
 SEC("ksyscall/setxattr")
 int BPF_KSYSCALL(setxattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,188");
     return 0;
 }
@@ -1242,6 +2316,12 @@ int BPF_KSYSCALL(setxattr_entry)
 SEC("ksyscall/lsetxattr")
 int BPF_KSYSCALL(lsetxattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,189");
     return 0;
 }
@@ -1249,6 +2329,12 @@ int BPF_KSYSCALL(lsetxattr_entry)
 SEC("ksyscall/fsetxattr")
 int BPF_KSYSCALL(fsetxattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,190");
     return 0;
 }
@@ -1256,6 +2342,12 @@ int BPF_KSYSCALL(fsetxattr_entry)
 SEC("ksyscall/getxattr")
 int BPF_KSYSCALL(getxattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,191");
     return 0;
 }
@@ -1263,6 +2355,12 @@ int BPF_KSYSCALL(getxattr_entry)
 SEC("ksyscall/lgetxattr")
 int BPF_KSYSCALL(lgetxattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,192");
     return 0;
 }
@@ -1270,6 +2368,12 @@ int BPF_KSYSCALL(lgetxattr_entry)
 SEC("ksyscall/fgetxattr")
 int BPF_KSYSCALL(fgetxattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,193");
     return 0;
 }
@@ -1277,6 +2381,12 @@ int BPF_KSYSCALL(fgetxattr_entry)
 SEC("ksyscall/listxattr")
 int BPF_KSYSCALL(listxattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,194");
     return 0;
 }
@@ -1284,6 +2394,12 @@ int BPF_KSYSCALL(listxattr_entry)
 SEC("ksyscall/llistxattr")
 int BPF_KSYSCALL(llistxattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,195");
     return 0;
 }
@@ -1291,6 +2407,12 @@ int BPF_KSYSCALL(llistxattr_entry)
 SEC("ksyscall/flistxattr")
 int BPF_KSYSCALL(flistxattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,196");
     return 0;
 }
@@ -1298,6 +2420,12 @@ int BPF_KSYSCALL(flistxattr_entry)
 SEC("ksyscall/removexattr")
 int BPF_KSYSCALL(removexattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,197");
     return 0;
 }
@@ -1305,6 +2433,12 @@ int BPF_KSYSCALL(removexattr_entry)
 SEC("ksyscall/lremovexattr")
 int BPF_KSYSCALL(lremovexattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,198");
     return 0;
 }
@@ -1312,6 +2446,12 @@ int BPF_KSYSCALL(lremovexattr_entry)
 SEC("ksyscall/fremovexattr")
 int BPF_KSYSCALL(fremovexattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,199");
     return 0;
 }
@@ -1319,6 +2459,12 @@ int BPF_KSYSCALL(fremovexattr_entry)
 SEC("ksyscall/tkill")
 int BPF_KSYSCALL(tkill_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,200");
     return 0;
 }
@@ -1326,6 +2472,12 @@ int BPF_KSYSCALL(tkill_entry)
 SEC("ksyscall/time")
 int BPF_KSYSCALL(time_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,201");
     return 0;
 }
@@ -1333,6 +2485,12 @@ int BPF_KSYSCALL(time_entry)
 SEC("ksyscall/futex")
 int BPF_KSYSCALL(futex_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,202");
     return 0;
 }
@@ -1340,6 +2498,12 @@ int BPF_KSYSCALL(futex_entry)
 SEC("ksyscall/sched_setaffinity")
 int BPF_KSYSCALL(sched_setaffinity_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,203");
     return 0;
 }
@@ -1347,6 +2511,12 @@ int BPF_KSYSCALL(sched_setaffinity_entry)
 SEC("ksyscall/sched_getaffinity")
 int BPF_KSYSCALL(sched_getaffinity_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,204");
     return 0;
 }
@@ -1354,6 +2524,12 @@ int BPF_KSYSCALL(sched_getaffinity_entry)
 SEC("ksyscall/set_thread_area")
 int BPF_KSYSCALL(set_thread_area_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,205");
     return 0;
 }
@@ -1361,6 +2537,12 @@ int BPF_KSYSCALL(set_thread_area_entry)
 SEC("ksyscall/io_setup")
 int BPF_KSYSCALL(io_setup_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,206");
     return 0;
 }
@@ -1368,6 +2550,12 @@ int BPF_KSYSCALL(io_setup_entry)
 SEC("ksyscall/io_destroy")
 int BPF_KSYSCALL(io_destroy_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,207");
     return 0;
 }
@@ -1375,6 +2563,12 @@ int BPF_KSYSCALL(io_destroy_entry)
 SEC("ksyscall/io_getevents")
 int BPF_KSYSCALL(io_getevents_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,208");
     return 0;
 }
@@ -1382,6 +2576,12 @@ int BPF_KSYSCALL(io_getevents_entry)
 SEC("ksyscall/io_submit")
 int BPF_KSYSCALL(io_submit_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,209");
     return 0;
 }
@@ -1389,6 +2589,12 @@ int BPF_KSYSCALL(io_submit_entry)
 SEC("ksyscall/io_cancel")
 int BPF_KSYSCALL(io_cancel_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,210");
     return 0;
 }
@@ -1396,6 +2602,12 @@ int BPF_KSYSCALL(io_cancel_entry)
 SEC("ksyscall/get_thread_area")
 int BPF_KSYSCALL(get_thread_area_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,211");
     return 0;
 }
@@ -1403,6 +2615,12 @@ int BPF_KSYSCALL(get_thread_area_entry)
 SEC("ksyscall/epoll_create")
 int BPF_KSYSCALL(epoll_create_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,213");
     return 0;
 }
@@ -1410,6 +2628,12 @@ int BPF_KSYSCALL(epoll_create_entry)
 SEC("ksyscall/remap_file_pages")
 int BPF_KSYSCALL(remap_file_pages_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,216");
     return 0;
 }
@@ -1417,6 +2641,12 @@ int BPF_KSYSCALL(remap_file_pages_entry)
 SEC("ksyscall/getdents64")
 int BPF_KSYSCALL(getdents64_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,217");
     return 0;
 }
@@ -1424,6 +2654,12 @@ int BPF_KSYSCALL(getdents64_entry)
 SEC("ksyscall/set_tid_address")
 int BPF_KSYSCALL(set_tid_address_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,218");
     return 0;
 }
@@ -1431,6 +2667,12 @@ int BPF_KSYSCALL(set_tid_address_entry)
 SEC("ksyscall/restart_syscall")
 int BPF_KSYSCALL(restart_syscall_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,219");
     return 0;
 }
@@ -1438,6 +2680,12 @@ int BPF_KSYSCALL(restart_syscall_entry)
 SEC("ksyscall/semtimedop")
 int BPF_KSYSCALL(semtimedop_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,220");
     return 0;
 }
@@ -1445,6 +2693,12 @@ int BPF_KSYSCALL(semtimedop_entry)
 SEC("ksyscall/fadvise64")
 int BPF_KSYSCALL(fadvise64_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,221");
     return 0;
 }
@@ -1452,6 +2706,12 @@ int BPF_KSYSCALL(fadvise64_entry)
 SEC("ksyscall/timer_create")
 int BPF_KSYSCALL(timer_create_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,222");
     return 0;
 }
@@ -1459,6 +2719,12 @@ int BPF_KSYSCALL(timer_create_entry)
 SEC("ksyscall/timer_settime")
 int BPF_KSYSCALL(timer_settime_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,223");
     return 0;
 }
@@ -1466,6 +2732,12 @@ int BPF_KSYSCALL(timer_settime_entry)
 SEC("ksyscall/timer_gettime")
 int BPF_KSYSCALL(timer_gettime_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,224");
     return 0;
 }
@@ -1473,6 +2745,12 @@ int BPF_KSYSCALL(timer_gettime_entry)
 SEC("ksyscall/timer_getoverrun")
 int BPF_KSYSCALL(timer_getoverrun_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,225");
     return 0;
 }
@@ -1480,6 +2758,12 @@ int BPF_KSYSCALL(timer_getoverrun_entry)
 SEC("ksyscall/timer_delete")
 int BPF_KSYSCALL(timer_delete_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,226");
     return 0;
 }
@@ -1487,6 +2771,12 @@ int BPF_KSYSCALL(timer_delete_entry)
 SEC("ksyscall/clock_settime")
 int BPF_KSYSCALL(clock_settime_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,227");
     return 0;
 }
@@ -1494,6 +2784,12 @@ int BPF_KSYSCALL(clock_settime_entry)
 SEC("ksyscall/clock_gettime")
 int BPF_KSYSCALL(clock_gettime_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,228");
     return 0;
 }
@@ -1501,6 +2797,12 @@ int BPF_KSYSCALL(clock_gettime_entry)
 SEC("ksyscall/clock_getres")
 int BPF_KSYSCALL(clock_getres_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,229");
     return 0;
 }
@@ -1508,6 +2810,12 @@ int BPF_KSYSCALL(clock_getres_entry)
 SEC("ksyscall/clock_nanosleep")
 int BPF_KSYSCALL(clock_nanosleep_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,230");
     return 0;
 }
@@ -1515,6 +2823,12 @@ int BPF_KSYSCALL(clock_nanosleep_entry)
 SEC("ksyscall/exit_group")
 int BPF_KSYSCALL(exit_group_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,231");
     return 0;
 }
@@ -1522,6 +2836,12 @@ int BPF_KSYSCALL(exit_group_entry)
 SEC("ksyscall/epoll_wait")
 int BPF_KSYSCALL(epoll_wait_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,232");
     return 0;
 }
@@ -1529,6 +2849,12 @@ int BPF_KSYSCALL(epoll_wait_entry)
 SEC("ksyscall/epoll_ctl")
 int BPF_KSYSCALL(epoll_ctl_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,233");
     return 0;
 }
@@ -1536,6 +2862,12 @@ int BPF_KSYSCALL(epoll_ctl_entry)
 SEC("ksyscall/tgkill")
 int BPF_KSYSCALL(tgkill_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,234");
     return 0;
 }
@@ -1543,6 +2875,12 @@ int BPF_KSYSCALL(tgkill_entry)
 SEC("ksyscall/utimes")
 int BPF_KSYSCALL(utimes_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,235");
     return 0;
 }
@@ -1550,6 +2888,12 @@ int BPF_KSYSCALL(utimes_entry)
 SEC("ksyscall/mbind")
 int BPF_KSYSCALL(mbind_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,237");
     return 0;
 }
@@ -1557,6 +2901,12 @@ int BPF_KSYSCALL(mbind_entry)
 SEC("ksyscall/set_mempolicy")
 int BPF_KSYSCALL(set_mempolicy_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,238");
     return 0;
 }
@@ -1564,6 +2914,12 @@ int BPF_KSYSCALL(set_mempolicy_entry)
 SEC("ksyscall/get_mempolicy")
 int BPF_KSYSCALL(get_mempolicy_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,239");
     return 0;
 }
@@ -1571,6 +2927,12 @@ int BPF_KSYSCALL(get_mempolicy_entry)
 SEC("ksyscall/mq_open")
 int BPF_KSYSCALL(mq_open_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,240");
     return 0;
 }
@@ -1578,6 +2940,12 @@ int BPF_KSYSCALL(mq_open_entry)
 SEC("ksyscall/mq_unlink")
 int BPF_KSYSCALL(mq_unlink_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,241");
     return 0;
 }
@@ -1585,6 +2953,12 @@ int BPF_KSYSCALL(mq_unlink_entry)
 SEC("ksyscall/mq_timedsend")
 int BPF_KSYSCALL(mq_timedsend_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,242");
     return 0;
 }
@@ -1592,6 +2966,12 @@ int BPF_KSYSCALL(mq_timedsend_entry)
 SEC("ksyscall/mq_timedreceive")
 int BPF_KSYSCALL(mq_timedreceive_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,243");
     return 0;
 }
@@ -1599,6 +2979,12 @@ int BPF_KSYSCALL(mq_timedreceive_entry)
 SEC("ksyscall/mq_notify")
 int BPF_KSYSCALL(mq_notify_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,244");
     return 0;
 }
@@ -1606,6 +2992,12 @@ int BPF_KSYSCALL(mq_notify_entry)
 SEC("ksyscall/mq_getsetattr")
 int BPF_KSYSCALL(mq_getsetattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,245");
     return 0;
 }
@@ -1613,6 +3005,12 @@ int BPF_KSYSCALL(mq_getsetattr_entry)
 SEC("ksyscall/kexec_load")
 int BPF_KSYSCALL(kexec_load_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,246");
     return 0;
 }
@@ -1620,6 +3018,12 @@ int BPF_KSYSCALL(kexec_load_entry)
 SEC("ksyscall/waitid")
 int BPF_KSYSCALL(waitid_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,247");
     return 0;
 }
@@ -1627,6 +3031,12 @@ int BPF_KSYSCALL(waitid_entry)
 SEC("ksyscall/add_key")
 int BPF_KSYSCALL(add_key_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,248");
     return 0;
 }
@@ -1634,6 +3044,12 @@ int BPF_KSYSCALL(add_key_entry)
 SEC("ksyscall/request_key")
 int BPF_KSYSCALL(request_key_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,249");
     return 0;
 }
@@ -1641,6 +3057,12 @@ int BPF_KSYSCALL(request_key_entry)
 SEC("ksyscall/keyctl")
 int BPF_KSYSCALL(keyctl_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,250");
     return 0;
 }
@@ -1648,6 +3070,12 @@ int BPF_KSYSCALL(keyctl_entry)
 SEC("ksyscall/ioprio_set")
 int BPF_KSYSCALL(ioprio_set_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,251");
     return 0;
 }
@@ -1655,6 +3083,12 @@ int BPF_KSYSCALL(ioprio_set_entry)
 SEC("ksyscall/ioprio_get")
 int BPF_KSYSCALL(ioprio_get_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,252");
     return 0;
 }
@@ -1662,6 +3096,12 @@ int BPF_KSYSCALL(ioprio_get_entry)
 SEC("ksyscall/inotify_init")
 int BPF_KSYSCALL(inotify_init_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,253");
     return 0;
 }
@@ -1669,6 +3109,12 @@ int BPF_KSYSCALL(inotify_init_entry)
 SEC("ksyscall/inotify_add_watch")
 int BPF_KSYSCALL(inotify_add_watch_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,254");
     return 0;
 }
@@ -1676,6 +3122,12 @@ int BPF_KSYSCALL(inotify_add_watch_entry)
 SEC("ksyscall/inotify_rm_watch")
 int BPF_KSYSCALL(inotify_rm_watch_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,255");
     return 0;
 }
@@ -1683,6 +3135,12 @@ int BPF_KSYSCALL(inotify_rm_watch_entry)
 SEC("ksyscall/migrate_pages")
 int BPF_KSYSCALL(migrate_pages_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,256");
     return 0;
 }
@@ -1690,6 +3148,12 @@ int BPF_KSYSCALL(migrate_pages_entry)
 SEC("ksyscall/openat")
 int BPF_KSYSCALL(openat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,257");
     return 0;
 }
@@ -1697,6 +3161,12 @@ int BPF_KSYSCALL(openat_entry)
 SEC("ksyscall/mkdirat")
 int BPF_KSYSCALL(mkdirat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,258");
     return 0;
 }
@@ -1704,6 +3174,12 @@ int BPF_KSYSCALL(mkdirat_entry)
 SEC("ksyscall/mknodat")
 int BPF_KSYSCALL(mknodat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,259");
     return 0;
 }
@@ -1711,6 +3187,12 @@ int BPF_KSYSCALL(mknodat_entry)
 SEC("ksyscall/fchownat")
 int BPF_KSYSCALL(fchownat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,260");
     return 0;
 }
@@ -1718,6 +3200,12 @@ int BPF_KSYSCALL(fchownat_entry)
 SEC("ksyscall/futimesat")
 int BPF_KSYSCALL(futimesat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,261");
     return 0;
 }
@@ -1725,6 +3213,12 @@ int BPF_KSYSCALL(futimesat_entry)
 SEC("ksyscall/newfstatat")
 int BPF_KSYSCALL(newfstatat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,262");
     return 0;
 }
@@ -1732,6 +3226,12 @@ int BPF_KSYSCALL(newfstatat_entry)
 SEC("ksyscall/unlinkat")
 int BPF_KSYSCALL(unlinkat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,263");
     return 0;
 }
@@ -1739,6 +3239,12 @@ int BPF_KSYSCALL(unlinkat_entry)
 SEC("ksyscall/renameat")
 int BPF_KSYSCALL(renameat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,264");
     return 0;
 }
@@ -1746,6 +3252,12 @@ int BPF_KSYSCALL(renameat_entry)
 SEC("ksyscall/linkat")
 int BPF_KSYSCALL(linkat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,265");
     return 0;
 }
@@ -1753,6 +3265,12 @@ int BPF_KSYSCALL(linkat_entry)
 SEC("ksyscall/symlinkat")
 int BPF_KSYSCALL(symlinkat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,266");
     return 0;
 }
@@ -1760,6 +3278,12 @@ int BPF_KSYSCALL(symlinkat_entry)
 SEC("ksyscall/readlinkat")
 int BPF_KSYSCALL(readlinkat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,267");
     return 0;
 }
@@ -1767,6 +3291,12 @@ int BPF_KSYSCALL(readlinkat_entry)
 SEC("ksyscall/fchmodat")
 int BPF_KSYSCALL(fchmodat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,268");
     return 0;
 }
@@ -1774,6 +3304,12 @@ int BPF_KSYSCALL(fchmodat_entry)
 SEC("ksyscall/faccessat")
 int BPF_KSYSCALL(faccessat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,269");
     return 0;
 }
@@ -1781,6 +3317,12 @@ int BPF_KSYSCALL(faccessat_entry)
 SEC("ksyscall/pselect6")
 int BPF_KSYSCALL(pselect6_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,270");
     return 0;
 }
@@ -1788,6 +3330,12 @@ int BPF_KSYSCALL(pselect6_entry)
 SEC("ksyscall/ppoll")
 int BPF_KSYSCALL(ppoll_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,271");
     return 0;
 }
@@ -1795,6 +3343,12 @@ int BPF_KSYSCALL(ppoll_entry)
 SEC("ksyscall/unshare")
 int BPF_KSYSCALL(unshare_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,272");
     return 0;
 }
@@ -1802,6 +3356,12 @@ int BPF_KSYSCALL(unshare_entry)
 SEC("ksyscall/set_robust_list")
 int BPF_KSYSCALL(set_robust_list_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,273");
     return 0;
 }
@@ -1809,6 +3369,12 @@ int BPF_KSYSCALL(set_robust_list_entry)
 SEC("ksyscall/get_robust_list")
 int BPF_KSYSCALL(get_robust_list_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,274");
     return 0;
 }
@@ -1816,6 +3382,12 @@ int BPF_KSYSCALL(get_robust_list_entry)
 SEC("ksyscall/splice")
 int BPF_KSYSCALL(splice_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,275");
     return 0;
 }
@@ -1823,6 +3395,12 @@ int BPF_KSYSCALL(splice_entry)
 SEC("ksyscall/tee")
 int BPF_KSYSCALL(tee_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,276");
     return 0;
 }
@@ -1830,6 +3408,12 @@ int BPF_KSYSCALL(tee_entry)
 SEC("ksyscall/sync_file_range")
 int BPF_KSYSCALL(sync_file_range_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,277");
     return 0;
 }
@@ -1837,6 +3421,12 @@ int BPF_KSYSCALL(sync_file_range_entry)
 SEC("ksyscall/vmsplice")
 int BPF_KSYSCALL(vmsplice_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,278");
     return 0;
 }
@@ -1844,6 +3434,12 @@ int BPF_KSYSCALL(vmsplice_entry)
 SEC("ksyscall/move_pages")
 int BPF_KSYSCALL(move_pages_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,279");
     return 0;
 }
@@ -1851,6 +3447,12 @@ int BPF_KSYSCALL(move_pages_entry)
 SEC("ksyscall/utimensat")
 int BPF_KSYSCALL(utimensat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,280");
     return 0;
 }
@@ -1858,6 +3460,12 @@ int BPF_KSYSCALL(utimensat_entry)
 SEC("ksyscall/epoll_pwait")
 int BPF_KSYSCALL(epoll_pwait_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,281");
     return 0;
 }
@@ -1865,6 +3473,12 @@ int BPF_KSYSCALL(epoll_pwait_entry)
 SEC("ksyscall/signalfd")
 int BPF_KSYSCALL(signalfd_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,282");
     return 0;
 }
@@ -1872,6 +3486,12 @@ int BPF_KSYSCALL(signalfd_entry)
 SEC("ksyscall/timerfd_create")
 int BPF_KSYSCALL(timerfd_create_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,283");
     return 0;
 }
@@ -1879,6 +3499,12 @@ int BPF_KSYSCALL(timerfd_create_entry)
 SEC("ksyscall/eventfd")
 int BPF_KSYSCALL(eventfd_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,284");
     return 0;
 }
@@ -1886,6 +3512,12 @@ int BPF_KSYSCALL(eventfd_entry)
 SEC("ksyscall/fallocate")
 int BPF_KSYSCALL(fallocate_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,285");
     return 0;
 }
@@ -1893,6 +3525,12 @@ int BPF_KSYSCALL(fallocate_entry)
 SEC("ksyscall/timerfd_settime")
 int BPF_KSYSCALL(timerfd_settime_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,286");
     return 0;
 }
@@ -1900,6 +3538,12 @@ int BPF_KSYSCALL(timerfd_settime_entry)
 SEC("ksyscall/timerfd_gettime")
 int BPF_KSYSCALL(timerfd_gettime_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,287");
     return 0;
 }
@@ -1907,6 +3551,12 @@ int BPF_KSYSCALL(timerfd_gettime_entry)
 SEC("ksyscall/accept4")
 int BPF_KSYSCALL(accept4_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,288");
     return 0;
 }
@@ -1914,6 +3564,12 @@ int BPF_KSYSCALL(accept4_entry)
 SEC("ksyscall/signalfd4")
 int BPF_KSYSCALL(signalfd4_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,289");
     return 0;
 }
@@ -1921,6 +3577,12 @@ int BPF_KSYSCALL(signalfd4_entry)
 SEC("ksyscall/eventfd2")
 int BPF_KSYSCALL(eventfd2_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,290");
     return 0;
 }
@@ -1928,6 +3590,12 @@ int BPF_KSYSCALL(eventfd2_entry)
 SEC("ksyscall/epoll_create1")
 int BPF_KSYSCALL(epoll_create1_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,291");
     return 0;
 }
@@ -1935,6 +3603,12 @@ int BPF_KSYSCALL(epoll_create1_entry)
 SEC("ksyscall/dup3")
 int BPF_KSYSCALL(dup3_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,292");
     return 0;
 }
@@ -1942,6 +3616,12 @@ int BPF_KSYSCALL(dup3_entry)
 SEC("ksyscall/pipe2")
 int BPF_KSYSCALL(pipe2_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,293");
     return 0;
 }
@@ -1949,6 +3629,12 @@ int BPF_KSYSCALL(pipe2_entry)
 SEC("ksyscall/inotify_init1")
 int BPF_KSYSCALL(inotify_init1_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,294");
     return 0;
 }
@@ -1956,6 +3642,12 @@ int BPF_KSYSCALL(inotify_init1_entry)
 SEC("ksyscall/preadv")
 int BPF_KSYSCALL(preadv_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,295");
     return 0;
 }
@@ -1963,6 +3655,12 @@ int BPF_KSYSCALL(preadv_entry)
 SEC("ksyscall/pwritev")
 int BPF_KSYSCALL(pwritev_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,296");
     return 0;
 }
@@ -1970,6 +3668,12 @@ int BPF_KSYSCALL(pwritev_entry)
 SEC("ksyscall/rt_tgsigqueueinfo")
 int BPF_KSYSCALL(rt_tgsigqueueinfo_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,297");
     return 0;
 }
@@ -1977,6 +3681,12 @@ int BPF_KSYSCALL(rt_tgsigqueueinfo_entry)
 SEC("ksyscall/perf_event_open")
 int BPF_KSYSCALL(perf_event_open_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,298");
     return 0;
 }
@@ -1984,6 +3694,12 @@ int BPF_KSYSCALL(perf_event_open_entry)
 SEC("ksyscall/recvmmsg")
 int BPF_KSYSCALL(recvmmsg_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,299");
     return 0;
 }
@@ -1991,6 +3707,12 @@ int BPF_KSYSCALL(recvmmsg_entry)
 SEC("ksyscall/fanotify_init")
 int BPF_KSYSCALL(fanotify_init_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,300");
     return 0;
 }
@@ -1998,6 +3720,12 @@ int BPF_KSYSCALL(fanotify_init_entry)
 SEC("ksyscall/fanotify_mark")
 int BPF_KSYSCALL(fanotify_mark_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,301");
     return 0;
 }
@@ -2005,6 +3733,12 @@ int BPF_KSYSCALL(fanotify_mark_entry)
 SEC("ksyscall/prlimit64")
 int BPF_KSYSCALL(prlimit64_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,302");
     return 0;
 }
@@ -2012,6 +3746,12 @@ int BPF_KSYSCALL(prlimit64_entry)
 SEC("ksyscall/name_to_handle_at")
 int BPF_KSYSCALL(name_to_handle_at_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,303");
     return 0;
 }
@@ -2019,6 +3759,12 @@ int BPF_KSYSCALL(name_to_handle_at_entry)
 SEC("ksyscall/open_by_handle_at")
 int BPF_KSYSCALL(open_by_handle_at_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,304");
     return 0;
 }
@@ -2026,6 +3772,12 @@ int BPF_KSYSCALL(open_by_handle_at_entry)
 SEC("ksyscall/clock_adjtime")
 int BPF_KSYSCALL(clock_adjtime_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,305");
     return 0;
 }
@@ -2033,6 +3785,12 @@ int BPF_KSYSCALL(clock_adjtime_entry)
 SEC("ksyscall/syncfs")
 int BPF_KSYSCALL(syncfs_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,306");
     return 0;
 }
@@ -2040,6 +3798,12 @@ int BPF_KSYSCALL(syncfs_entry)
 SEC("ksyscall/sendmmsg")
 int BPF_KSYSCALL(sendmmsg_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,307");
     return 0;
 }
@@ -2047,6 +3811,12 @@ int BPF_KSYSCALL(sendmmsg_entry)
 SEC("ksyscall/setns")
 int BPF_KSYSCALL(setns_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,308");
     return 0;
 }
@@ -2054,6 +3824,12 @@ int BPF_KSYSCALL(setns_entry)
 SEC("ksyscall/getcpu")
 int BPF_KSYSCALL(getcpu_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,309");
     return 0;
 }
@@ -2061,6 +3837,12 @@ int BPF_KSYSCALL(getcpu_entry)
 SEC("ksyscall/process_vm_readv")
 int BPF_KSYSCALL(process_vm_readv_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,310");
     return 0;
 }
@@ -2068,6 +3850,12 @@ int BPF_KSYSCALL(process_vm_readv_entry)
 SEC("ksyscall/process_vm_writev")
 int BPF_KSYSCALL(process_vm_writev_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,311");
     return 0;
 }
@@ -2075,6 +3863,12 @@ int BPF_KSYSCALL(process_vm_writev_entry)
 SEC("ksyscall/kcmp")
 int BPF_KSYSCALL(kcmp_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,312");
     return 0;
 }
@@ -2082,6 +3876,12 @@ int BPF_KSYSCALL(kcmp_entry)
 SEC("ksyscall/finit_module")
 int BPF_KSYSCALL(finit_module_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,313");
     return 0;
 }
@@ -2089,6 +3889,12 @@ int BPF_KSYSCALL(finit_module_entry)
 SEC("ksyscall/sched_setattr")
 int BPF_KSYSCALL(sched_setattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,314");
     return 0;
 }
@@ -2096,6 +3902,12 @@ int BPF_KSYSCALL(sched_setattr_entry)
 SEC("ksyscall/sched_getattr")
 int BPF_KSYSCALL(sched_getattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,315");
     return 0;
 }
@@ -2103,6 +3915,12 @@ int BPF_KSYSCALL(sched_getattr_entry)
 SEC("ksyscall/renameat2")
 int BPF_KSYSCALL(renameat2_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,316");
     return 0;
 }
@@ -2110,6 +3928,12 @@ int BPF_KSYSCALL(renameat2_entry)
 SEC("ksyscall/seccomp")
 int BPF_KSYSCALL(seccomp_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,317");
     return 0;
 }
@@ -2117,6 +3941,12 @@ int BPF_KSYSCALL(seccomp_entry)
 SEC("ksyscall/getrandom")
 int BPF_KSYSCALL(getrandom_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,318");
     return 0;
 }
@@ -2124,6 +3954,12 @@ int BPF_KSYSCALL(getrandom_entry)
 SEC("ksyscall/memfd_create")
 int BPF_KSYSCALL(memfd_create_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,319");
     return 0;
 }
@@ -2131,6 +3967,12 @@ int BPF_KSYSCALL(memfd_create_entry)
 SEC("ksyscall/kexec_file_load")
 int BPF_KSYSCALL(kexec_file_load_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,320");
     return 0;
 }
@@ -2138,6 +3980,12 @@ int BPF_KSYSCALL(kexec_file_load_entry)
 SEC("ksyscall/bpf")
 int BPF_KSYSCALL(bpf_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,321");
     return 0;
 }
@@ -2145,6 +3993,12 @@ int BPF_KSYSCALL(bpf_entry)
 SEC("ksyscall/execveat")
 int BPF_KSYSCALL(execveat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,322");
     return 0;
 }
@@ -2152,6 +4006,12 @@ int BPF_KSYSCALL(execveat_entry)
 SEC("ksyscall/userfaultfd")
 int BPF_KSYSCALL(userfaultfd_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,323");
     return 0;
 }
@@ -2159,6 +4019,12 @@ int BPF_KSYSCALL(userfaultfd_entry)
 SEC("ksyscall/membarrier")
 int BPF_KSYSCALL(membarrier_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,324");
     return 0;
 }
@@ -2166,6 +4032,12 @@ int BPF_KSYSCALL(membarrier_entry)
 SEC("ksyscall/mlock2")
 int BPF_KSYSCALL(mlock2_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,325");
     return 0;
 }
@@ -2173,6 +4045,12 @@ int BPF_KSYSCALL(mlock2_entry)
 SEC("ksyscall/copy_file_range")
 int BPF_KSYSCALL(copy_file_range_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,326");
     return 0;
 }
@@ -2180,6 +4058,12 @@ int BPF_KSYSCALL(copy_file_range_entry)
 SEC("ksyscall/preadv2")
 int BPF_KSYSCALL(preadv2_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,327");
     return 0;
 }
@@ -2187,6 +4071,12 @@ int BPF_KSYSCALL(preadv2_entry)
 SEC("ksyscall/pwritev2")
 int BPF_KSYSCALL(pwritev2_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,328");
     return 0;
 }
@@ -2194,6 +4084,12 @@ int BPF_KSYSCALL(pwritev2_entry)
 SEC("ksyscall/pkey_mprotect")
 int BPF_KSYSCALL(pkey_mprotect_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,329");
     return 0;
 }
@@ -2201,6 +4097,12 @@ int BPF_KSYSCALL(pkey_mprotect_entry)
 SEC("ksyscall/pkey_alloc")
 int BPF_KSYSCALL(pkey_alloc_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,330");
     return 0;
 }
@@ -2208,6 +4110,12 @@ int BPF_KSYSCALL(pkey_alloc_entry)
 SEC("ksyscall/pkey_free")
 int BPF_KSYSCALL(pkey_free_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,331");
     return 0;
 }
@@ -2215,6 +4123,12 @@ int BPF_KSYSCALL(pkey_free_entry)
 SEC("ksyscall/statx")
 int BPF_KSYSCALL(statx_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,332");
     return 0;
 }
@@ -2222,6 +4136,12 @@ int BPF_KSYSCALL(statx_entry)
 SEC("ksyscall/io_pgetevents")
 int BPF_KSYSCALL(io_pgetevents_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,333");
     return 0;
 }
@@ -2229,6 +4149,12 @@ int BPF_KSYSCALL(io_pgetevents_entry)
 SEC("ksyscall/rseq")
 int BPF_KSYSCALL(rseq_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,334");
     return 0;
 }
@@ -2236,6 +4162,12 @@ int BPF_KSYSCALL(rseq_entry)
 SEC("ksyscall/pidfd_send_signal")
 int BPF_KSYSCALL(pidfd_send_signal_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,424");
     return 0;
 }
@@ -2243,6 +4175,12 @@ int BPF_KSYSCALL(pidfd_send_signal_entry)
 SEC("ksyscall/io_uring_setup")
 int BPF_KSYSCALL(io_uring_setup_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,425");
     return 0;
 }
@@ -2250,6 +4188,12 @@ int BPF_KSYSCALL(io_uring_setup_entry)
 SEC("ksyscall/io_uring_enter")
 int BPF_KSYSCALL(io_uring_enter_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,426");
     return 0;
 }
@@ -2257,6 +4201,12 @@ int BPF_KSYSCALL(io_uring_enter_entry)
 SEC("ksyscall/io_uring_register")
 int BPF_KSYSCALL(io_uring_register_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,427");
     return 0;
 }
@@ -2264,6 +4214,12 @@ int BPF_KSYSCALL(io_uring_register_entry)
 SEC("ksyscall/open_tree")
 int BPF_KSYSCALL(open_tree_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,428");
     return 0;
 }
@@ -2271,6 +4227,12 @@ int BPF_KSYSCALL(open_tree_entry)
 SEC("ksyscall/move_mount")
 int BPF_KSYSCALL(move_mount_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,429");
     return 0;
 }
@@ -2278,6 +4240,12 @@ int BPF_KSYSCALL(move_mount_entry)
 SEC("ksyscall/fsopen")
 int BPF_KSYSCALL(fsopen_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,430");
     return 0;
 }
@@ -2285,6 +4253,12 @@ int BPF_KSYSCALL(fsopen_entry)
 SEC("ksyscall/fsconfig")
 int BPF_KSYSCALL(fsconfig_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,431");
     return 0;
 }
@@ -2292,6 +4266,12 @@ int BPF_KSYSCALL(fsconfig_entry)
 SEC("ksyscall/fsmount")
 int BPF_KSYSCALL(fsmount_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,432");
     return 0;
 }
@@ -2299,6 +4279,12 @@ int BPF_KSYSCALL(fsmount_entry)
 SEC("ksyscall/fspick")
 int BPF_KSYSCALL(fspick_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,433");
     return 0;
 }
@@ -2306,6 +4292,12 @@ int BPF_KSYSCALL(fspick_entry)
 SEC("ksyscall/pidfd_open")
 int BPF_KSYSCALL(pidfd_open_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,434");
     return 0;
 }
@@ -2313,6 +4305,12 @@ int BPF_KSYSCALL(pidfd_open_entry)
 SEC("ksyscall/clone3")
 int BPF_KSYSCALL(clone3_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,435");
     return 0;
 }
@@ -2320,6 +4318,12 @@ int BPF_KSYSCALL(clone3_entry)
 SEC("ksyscall/close_range")
 int BPF_KSYSCALL(close_range_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,436");
     return 0;
 }
@@ -2327,6 +4331,12 @@ int BPF_KSYSCALL(close_range_entry)
 SEC("ksyscall/openat2")
 int BPF_KSYSCALL(openat2_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,437");
     return 0;
 }
@@ -2334,6 +4344,12 @@ int BPF_KSYSCALL(openat2_entry)
 SEC("ksyscall/pidfd_getfd")
 int BPF_KSYSCALL(pidfd_getfd_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,438");
     return 0;
 }
@@ -2341,6 +4357,12 @@ int BPF_KSYSCALL(pidfd_getfd_entry)
 SEC("ksyscall/faccessat2")
 int BPF_KSYSCALL(faccessat2_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,439");
     return 0;
 }
@@ -2348,6 +4370,12 @@ int BPF_KSYSCALL(faccessat2_entry)
 SEC("ksyscall/process_madvise")
 int BPF_KSYSCALL(process_madvise_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,440");
     return 0;
 }
@@ -2355,6 +4383,12 @@ int BPF_KSYSCALL(process_madvise_entry)
 SEC("ksyscall/epoll_pwait2")
 int BPF_KSYSCALL(epoll_pwait2_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,441");
     return 0;
 }
@@ -2362,6 +4396,12 @@ int BPF_KSYSCALL(epoll_pwait2_entry)
 SEC("ksyscall/mount_setattr")
 int BPF_KSYSCALL(mount_setattr_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,442");
     return 0;
 }
@@ -2369,6 +4409,12 @@ int BPF_KSYSCALL(mount_setattr_entry)
 SEC("ksyscall/quotactl_fd")
 int BPF_KSYSCALL(quotactl_fd_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,443");
     return 0;
 }
@@ -2376,6 +4422,12 @@ int BPF_KSYSCALL(quotactl_fd_entry)
 SEC("ksyscall/landlock_create_ruleset")
 int BPF_KSYSCALL(landlock_create_ruleset_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,444");
     return 0;
 }
@@ -2383,6 +4435,12 @@ int BPF_KSYSCALL(landlock_create_ruleset_entry)
 SEC("ksyscall/landlock_add_rule")
 int BPF_KSYSCALL(landlock_add_rule_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,445");
     return 0;
 }
@@ -2390,6 +4448,12 @@ int BPF_KSYSCALL(landlock_add_rule_entry)
 SEC("ksyscall/landlock_restrict_self")
 int BPF_KSYSCALL(landlock_restrict_self_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,446");
     return 0;
 }
@@ -2397,6 +4461,12 @@ int BPF_KSYSCALL(landlock_restrict_self_entry)
 SEC("ksyscall/memfd_secret")
 int BPF_KSYSCALL(memfd_secret_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,447");
     return 0;
 }
@@ -2404,6 +4474,12 @@ int BPF_KSYSCALL(memfd_secret_entry)
 SEC("ksyscall/process_mrelease")
 int BPF_KSYSCALL(process_mrelease_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,448");
     return 0;
 }
@@ -2411,6 +4487,12 @@ int BPF_KSYSCALL(process_mrelease_entry)
 SEC("ksyscall/futex_waitv")
 int BPF_KSYSCALL(futex_waitv_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,449");
     return 0;
 }
@@ -2418,6 +4500,12 @@ int BPF_KSYSCALL(futex_waitv_entry)
 SEC("ksyscall/set_mempolicy_home_node")
 int BPF_KSYSCALL(set_mempolicy_home_node_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,450");
     return 0;
 }
@@ -2425,6 +4513,12 @@ int BPF_KSYSCALL(set_mempolicy_home_node_entry)
 SEC("ksyscall/cachestat")
 int BPF_KSYSCALL(cachestat_entry)
 {
+    char comm[TASK_COMM_LEN];
+    bpf_get_current_comm(&comm, sizeof(comm));
+
+    if (COMM_MATCH(comm)) {
+        return 0;
+    }
     bpf_printk("IDSTAG,451");
     return 0;
 }
