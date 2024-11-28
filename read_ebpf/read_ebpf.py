@@ -6,34 +6,47 @@ import select
 import time
 
 def signal_handler(sig, frame):
+    """Handle SIGINT (Ctrl+C) to gracefully exit."""
+    print("\nExiting...")
     sys.exit(0)
 
 def main():
-    # Ctrl+C signal handler
+    # Set up signal handling for graceful shutdown
     signal.signal(signal.SIGINT, signal_handler)
 
-    # Open the trace_pipe file for reading and a plain text file for writing
-    with open("/sys/kernel/debug/tracing/trace_pipe", "r") as trace_pipe, open("output.txt", "w") as output_file:
+    trace_pipe_path = "/sys/kernel/debug/tracing/trace_pipe"
+    output_file_path = "output.txt"
+
+    try:
+        with open("/sys/kernel/debug/tracing/buffer_size_kb", "w") as buf_size:
+            buf_size.write("1024")  # Set buffer size to 1024 KB
+    except PermissionError:
+        print("Warning: Unable to adjust kernel buffer size. Run as root for better performance.")
+
+    with open(trace_pipe_path, "r") as trace_pipe, open(output_file_path, "w") as output_file:
+        poller = select.poll()
+        poller.register(trace_pipe, select.POLLIN)
+
+        line_counter = 0  # Flush every 10 lines
+
         while True:
-            # Wait for data to become available, 1s timeout
-            ready, _, _ = select.select([trace_pipe], [], [], 1.0)
-            if ready:
-                line = trace_pipe.readline().strip()
-                if not line:  # EOF or no data
-                    time.sleep(0.1)
-                    continue
+            # Poll with 1s timeout
+            events = poller.poll(1000)
+            if events:
+                # Read all from the pipe
+                lines = trace_pipe.read().splitlines()
+                for line in lines:
+                    if "IDSTAG," in line:
+                        trace_data = line.split("IDSTAG,", 1)[1].strip()
+                        formatted_row = " ".join(trace_data.split(","))
+                        output_file.write(formatted_row + " ")
 
-                if "IDSTAG," in line:
+                        line_counter += 1
+                        if line_counter % 10 == 0:
+                            output_file.flush()
 
-                    # Extract the part starting from "IDSTAG,"
-                    trace_data = line.split("IDSTAG,", 1)[1].strip()
-
-                    # Format the row as a single line with spaces between entries
-                    formatted_row = " ".join(trace_data.split(","))
-
-                    # Write the formatted row to the output file
-                    output_file.write(formatted_row + " ")
-                    output_file.flush()
+            # Sleep briefly to reduce CPU
+            time.sleep(0.1)
 
 if __name__ == "__main__":
     main()
