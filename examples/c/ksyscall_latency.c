@@ -28,14 +28,14 @@ int main(int argc, char **argv)
 	libbpf_set_print(libbpf_print_fn);
 
 	/* Open load and verify BPF application */
-	skel = ksyscall_bpf__open_and_load();
+	skel = ksyscall_latency_bpf__open_and_load();
 	if (!skel) {
 		fprintf(stderr, "Failed to open BPF skeleton\n");
 		return 1;
 	}
 
 	/* Attach tracepoint handler */
-	err = ksyscall_bpf__attach(skel);
+	err = ksyscall_latency_bpf__attach(skel);
 	if (err) {
 		fprintf(stderr, "Failed to attach BPF skeleton\n");
 		goto cleanup;
@@ -55,6 +55,6 @@ int main(int argc, char **argv)
 	}
 
 cleanup:
-	ksyscall_bpf__destroy(skel);
+	ksyscall_latency_bpf__destroy(skel);
 	return -err;
 }
