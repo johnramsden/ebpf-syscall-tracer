@@ -21,7 +21,7 @@ static void sig_int(int signo)
 
 int main(int argc, char **argv)
 {
-	struct ksyscall_bpf *skel;
+	struct ksyscall_latency_bpf *skel;
 	int err;
 
 	/* Set up libbpf errors and debug info callback */
