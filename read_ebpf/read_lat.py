@@ -2,8 +2,8 @@
 
 import signal
 import sys
-import select
 import time
+import csv
 
 def signal_handler(sig, frame):
     """Handle SIGINT (Ctrl+C) to gracefully exit."""
@@ -13,47 +13,38 @@ def signal_handler(sig, frame):
 def main():
     # Set up signal handling for graceful shutdown
     signal.signal(signal.SIGINT, signal_handler)
-
     trace_pipe_path = "/sys/kernel/debug/tracing/trace_pipe"
 
-    try:
-        with open("/sys/kernel/debug/tracing/buffer_size_kb", "w") as buf_size:
-            buf_size.write("1024")  # Set buffer size to 1024 KB
-    except PermissionError:
-        print("Warning: Unable to adjust kernel buffer size. Run as root for better performance.")
+    num_traces = 10000
+
+    opens = []
 
     with open(trace_pipe_path, "r") as trace_pipe:
-        poller = select.poll()
-        poller.register(trace_pipe, select.POLLIN)
-
-        has_opened = False
+        time.sleep(2)
 
         while True:
-            # Create test file with timestamp name
-            start = time.time_ns()
-            test_file = f"/tmp/test_{start}"
+            test_file = f"/tmp/test"
 
-            if not has_opened:
-                # Open the file to trigger the eBPF program
-                with open(test_file, 'w') as f:
-                    pass
-                has_opened = True
+            # Open the file to trigger the eBPF program
+            with open(test_file, 'w') as f:
+                start = time.time_ns()
 
-            # Poll with tiny timeout
-            events = poller.poll(1)
-            if events:
-                # Read all from the pipe
-                lines = trace_pipe.read().splitlines()
-                for line in lines:
+            # Read one line at a time
+            line = trace_pipe.readline().strip()
+            if line and "READMETRIC" in line:
+                end = time.time_ns()
+                duration_ms = (end - start) / 1_000_000
 
-                    if start in line:
-                        has_opened = False
+                opens.append(duration_ms)
+                if len(opens) >= num_traces:
+                    break
 
-                        end = time.time_ns()
+    print(f"AVG={sum(opens)/num_traces}")
 
-                        duration_ms = (end - start) / 1_000_000
-                        print(f"Read {test_file} metric took {duration_ms:.3f} milliseconds")
-                        print(line)
+    with open('latency.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['latency'])  # Write header
+        writer.writerows([[x] for x in opens])
 
 if __name__ == "__main__":
     main()

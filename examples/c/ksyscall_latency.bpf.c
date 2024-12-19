@@ -14,9 +14,15 @@ SEC("ksyscall/open")
 int BPF_KSYSCALL(open_entry, const char *pathname)
 {
     char comm[TASK_COMM_LEN];
-    bpf_get_current_comm(&comm, sizeof(comm));
+    bpf_get_current_comm(
+        &comm, sizeof(comm)
+    );
 
-    if (__builtin_memcmp(comm, "read_lat.py", 11) != 0) {
+    int cmp = __builtin_memcmp(
+        comm, "read_lat.py", 11
+    );
+
+    if (cmp != 0) {
         return 0;
     }
 
